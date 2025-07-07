@@ -1,0 +1,515 @@
+{
+	"info": {
+		"_postman_id": "9af87362-465c-4a1c-ac99-47f15351fb74",
+		"name": "KasirAja API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "46053089"
+	},
+	"item": [
+		{
+			"name": "Kasir",
+			"item": [
+				{
+					"name": "Create User",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const loginRequest = {\r",
+									"    url: pm.environment.get('baseUrl') + \"/authentications\",\r",
+									"    method: 'POST',\r",
+									"    header: 'Content-Type: application/json',\r",
+									"    body: {\r",
+									"        mode: 'application/json',\r",
+									"        raw: JSON.stringify({\r",
+									"            \"email\": \"toko@ex.com\",\r",
+									"            \"password\": \"123\"\r",
+									"        })\r",
+									"    }\r",
+									"};\r",
+									"\r",
+									"pm.sendRequest(loginRequest, function (err, response) {\r",
+									"    pm.environment.set(\"accessToken\", response.json().data.accessToken);\r",
+									"})\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"{{$randomUserName}}\",\r\n   \"email\": \"{{$randomEmail}}\",\r\n   \"password\": \"jiasda2321@\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Detail",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/:userId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "{{userId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Vania\",\r\n    \"email\": \"vania@example.com\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/34cbe437-6ed9-4999-9277-6dcb693e4972",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"34cbe437-6ed9-4999-9277-6dcb693e4972"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Vania\",\r\n    \"email\": \"vania@example.com\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/34cbe437-6ed9-4999-9277-6dcb693e4972",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"34cbe437-6ed9-4999-9277-6dcb693e4972"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Users List",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Authorization",
+			"item": [
+				{
+					"name": "Registration",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"nama Toko\",\r\n   \"email\": \"{{$randomEmail}}\",\r\n   \"password\": \"123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/registration",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"registration"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// mengisi variabel accesToken dengan accesToken yang didapat\r",
+									"var jsonData = pm.response.json();\r",
+									"pm.environment.set(\"accessToken\", jsonData.data.accessToken);\r",
+									"\r",
+									"pm.test(\"Get Access Token\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"accessToken\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"email\": \"toko@ex.com\",\r\n   \"password\": \"123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/authentications",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"authentications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LogOut",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk0NTc3OGU2LTJjMDEtNDdmOS1hMWViLTkyMGNhYzIxNmIyYSIsImNvbXBhbnlJZCI6ImE0OTE5NjgyLWFkZDktNDM2Ni05N2Y3LTIwZDhhNmI4MTdhOSIsImlhdCI6MTc1MDU2NDU0NH0.DMkt3iCDqfzguA5KKk8Y5gxgfXLcN1AHq5oPKwHy1Tg\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/authentications",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"authentications"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Unit",
+			"item": [
+				{
+					"name": "Add Unit",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"gram\",\r\n   \"description\": \"weight measurement\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/units",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"units"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Unit Detail",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/units/a0e38973-90ee-4213-8cbd-cf976c7c08f6",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"units",
+								"a0e38973-90ee-4213-8cbd-cf976c7c08f6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Unit",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"update-meter\",\r\n   \"description\": \"no-meter\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/units/a0e38973-90ee-4213-8cbd-cf976c7c08f6",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"units",
+								"a0e38973-90ee-4213-8cbd-cf976c7c08f6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Unit",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"update-meter\",\r\n   \"description\": \"no-meter\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/units/a0e38973-90ee-4213-8cbd-cf976c7c08f6",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"units",
+								"a0e38973-90ee-4213-8cbd-cf976c7c08f6"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
